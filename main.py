@@ -12,7 +12,7 @@ from functools import wraps
 
 app = Flask(__name__)
 
-app.config['SECRET_KEY'] = 'your secret key'
+app.config['SECRET_KEY'] = 'e2de4519e62fa76f6e6a42d756a88f92'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///Database.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 
@@ -40,10 +40,11 @@ def token_required(f):
 
 		try:
 			# decoding the payload to fetch the stored details
-			data = jwt.decode(token, app.config['SECRET_KEY'])
-			current_user = User.query\
-				.filter_by(public_id = data['public_id'])\
-				.first()
+			data = jwt.decode(token, app.config['SECRET_KEY'], algorithms=["HS256"])
+			current_user = User.query.filter_by(public_id=data['public_id']).first()
+				# User.query\
+				# .filter_by(public_id = data['public_id'])\
+				# .first()
 		except:
 			return jsonify({
 				'message' : 'Token is invalid !!'
@@ -101,11 +102,11 @@ def login():
 		# generates the JWT Token
 		token = jwt.encode({
 			'public_id': user.public_id,
-			'exp': datetime.utcnow() + timedelta(minutes = 30)
+			'exp': datetime.utcnow() + timedelta(seconds = 240)
 		}, app.config['SECRET_KEY'])
 		print(token)
 		print("********************************")
-		return jsonify({'token': token})
+		return jsonify(({'token' : token}), 201)
 	# returns 403 if password is wrong
 	return make_response(
 		'Could not verify',
