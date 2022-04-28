@@ -4,7 +4,6 @@ from flask import Flask, request, jsonify, make_response, app
 from flask_sqlalchemy import SQLAlchemy
 import uuid
 from werkzeug.security import generate_password_hash, check_password_hash
-
 import jwt
 from datetime import datetime, timedelta
 from functools import wraps
@@ -42,9 +41,7 @@ def token_required(f):
 			# decoding the payload to fetch the stored details
 			data = jwt.decode(token, app.config['SECRET_KEY'], algorithms=["HS256"])
 			current_user = User.query.filter_by(public_id=data['public_id']).first()
-				# User.query\
-				# .filter_by(public_id = data['public_id'])\
-				# .first()
+				# User.query.filter_by(public_id = data['public_id']).first()
 		except:
 			return jsonify({
 				'message' : 'Token is invalid !!'
@@ -121,13 +118,10 @@ def hello_world():
 # signup route
 @app.route('/signup', methods =['POST'])
 def signup():
-	# creates a dictionary of the form data
 	data = request.form
-
 	# gets name, email and password
 	name, email = data.get('name'), data.get('email')
 	password = data.get('password')
-
 	# checking for existing user
 	user = User.query\
 		.filter_by(email = email)\
