@@ -11,8 +11,8 @@ from functools import wraps
 
 app = Flask(__name__)
 
-app.config['SECRET_KEY'] = 'e2de4519e62fa76f6e6a42d756a88f92'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///Database.db'
+app.config['SECRET_KEY'] = 'd3093ca837fd10e04abaa1680c980c24'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///userdb.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 
 db = SQLAlchemy(app)
@@ -24,6 +24,8 @@ class User(db.Model):
 	name = db.Column(db.String(100))
 	email = db.Column(db.String(70), unique = True)
 	password = db.Column(db.String(80))
+	created_at = db.Column(db.DateTime, default=datetime.utcnow)
+	last_modified = db.Column(db.DateTime, default=datetime.utcnow)
 
 # decorator for verifying the JWT
 def token_required(f):
@@ -62,9 +64,11 @@ def get_all_users(current_user):
 	for user in users:
 
 		output.append({
+			'id' : user.id,
 			'public_id': user.public_id,
 			'name' : user.name,
-			'email' : user.email
+			'email' : user.email,
+			'created_at' : user.created_at
 		})
 
 	return jsonify({'users': output})
@@ -116,7 +120,7 @@ def hello_world():
     return 'Hello World!!'
 
 # signup route
-@app.route('/signup', methods =['POST'])
+@app.route('/signup', methods=['POST'])
 def signup():
 	data = request.form
 	# gets name, email and password
