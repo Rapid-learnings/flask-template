@@ -8,6 +8,10 @@ from app.v1.project import project
 
 from extensions import make_celery, db
 
+from app.services.Signup import signup_blueprint
+from app.services.Login import login_blueprint
+from app.services.GetUser import user_blueprint
+
 app = Flask(__name__)
 
 load_dotenv()
@@ -28,12 +32,14 @@ app.config.update(
 )
 
 # Setup MySQL Settings
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('SQLALCHEMY_DATABASE_URI')
 app.config['SQLALCHEMY_ECHO'] = bool(os.getenv('SQLALCHEMY_ECHO'))
 app.config['SQLALCHEMY_RECORD_QUERIES'] = bool(
     os.getenv('SQLALCHEMY_RECORD_QUERIES'))
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = os.getenv(
     'SQLALCHEMY_TRACK_MODIFICATIONS')
+
 
 db.init_app(app)
 
@@ -43,14 +49,14 @@ def _dispose_db_pool():
         db.engine.dispose()
 
 
-try:
-    from uwsgidecorators import postfork
-
-    postfork(_dispose_db_pool)
-except ImportError:
-    # Implement fallback when running outside of uwsgi...
-    raise
-
+# try:
+#     from uwsgidecorators import postfork
+#
+#     postfork(_dispose_db_pool)
+# except ImportError:
+#     # Implement fallback when running outside of uwsgi...
+#     raise
+#
 
 @app.route('/')
 def hello_world():
@@ -60,7 +66,12 @@ def hello_world():
 # Register blueprints
 app.register_blueprint(project)
 
+app.register_blueprint(signup_blueprint)
+app.register_blueprint(login_blueprint)
+app.register_blueprint(user_blueprint)
+
 celery = make_celery(app)
+
 
 if __name__ == '__main__':
     app.run(debug=True)
