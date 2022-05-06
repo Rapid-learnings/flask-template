@@ -49,14 +49,14 @@ def _dispose_db_pool():
         db.engine.dispose()
 
 
-# try:
-#     from uwsgidecorators import postfork
-#
-#     postfork(_dispose_db_pool)
-# except ImportError:
-#     # Implement fallback when running outside of uwsgi...
-#     raise
-#
+try:
+    from uwsgidecorators import postfork
+
+    postfork(_dispose_db_pool)
+except ImportError:
+    # Implement fallback when running outside of uwsgi...
+    raise
+
 
 @app.route('/')
 def hello_world():
