@@ -30,3 +30,9 @@ def make_celery(app):
     celery.Task = ContextTask
 
     return celery
+
+# def make_producer(app):
+#     if app.config['KAFKA_HOSTNAME'] is none:
+#         #return "no kafka hostname started"
+#         raise Exception('KAFKA_HOSTNAME is not set')
+#     return Producer(app.config['KAFKA_HOSTNAME']).get_producer()
