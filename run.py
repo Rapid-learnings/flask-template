@@ -41,8 +41,9 @@ db.init_app(app)
 
 
 @app.route('/')
-def hello_world():
-    return 'Hello World!!'
+def hello_world(): 
+
+    return (f'Hello World! {__name__}')
 
 
 # Register blueprints

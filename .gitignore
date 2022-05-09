@@ -1,14 +1,15 @@
 # C extensions
 *.so
-
+*.pyc
 # pycharm
 .idea
 
-# virtual env config
-venv
-
+# virtual env config 
+venv/
 # environment variable
 .env
 
 # Flask stuff:
-instance/
+instance/ 
+
+
