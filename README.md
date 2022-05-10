@@ -29,11 +29,11 @@ flask run
 _gunicorn --bind 0.0.0.0:5000 wsgi:app_
 
 **To Build Docker**
-sudo docker-compse build
-sudo docker-compse up
+sudo docker-compose build
+sudo docker-compose up
 
 **Run -d to start container in background**
-sudo docker-compse up -d
+sudo docker-compose up -d
 
 **To check status  of kafka or zookeeper**
 sudo service kafka status

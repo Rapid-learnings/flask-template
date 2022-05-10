@@ -6,7 +6,7 @@ services:
     volumes:
       - .:/app
     ports:
-      - '127.0.0.1:5005:5005'
+      - '127.0.0.1:5000:5000'
   zookeeper:
     image: wurstmeister/zookeeper
     container_name: zookeeper

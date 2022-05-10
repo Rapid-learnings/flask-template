@@ -1,14 +1,16 @@
 from kafka import KafkaProducer
 from time import sleep
 from json import dumps
+from random import randint
 
 producer = KafkaProducer(
     bootstrap_servers=['localhost:9092'],
     value_serializer=lambda m: dumps(m).encode('utf-8'),
-    api_version=(0, 10, 1))
+    api_version=(0, 10, 1)
+)
 
-#if __name__ == "__main__":
-for i in range(1,5):
-        producer.send('youtube',value="hello Kafka, How are you!!")
-        print(i)
-        sleep(0.3)
+while True:
+    newval=f'Hello {randint(1,1000)}'
+    producer.send('youtube',value=newval)
+    print(newval)
+    sleep(1)

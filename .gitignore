@@ -12,3 +12,6 @@ venv
 
 # Flask stuff:
 instance/
+
+# Bytcodes:
+*.pyc
