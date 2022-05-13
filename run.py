@@ -42,13 +42,12 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = os.getenv(
 app.config['TOPICS'] = os.getenv(
     'TOPICS')
 db.init_app(app)
-   
-@app.route('/')
-def hello_world():
-   pass
-    
 
-    
+@app.route('/kafka')
+def hello_world():
+    #return "Hello Rapid"
+    consumer.consumer_fub()
+     
 # Register blueprints
 app.register_blueprint(project)
 
@@ -57,4 +56,5 @@ celery = make_celery(app)
 register_commands(app)
 
 if __name__ == '__main__':
+   
     app.run(debug=True)
