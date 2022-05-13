@@ -13,3 +13,4 @@ while True:
     i+=1;
     print(i)
     producer.send('newtest',value=i)
+producer.flush()

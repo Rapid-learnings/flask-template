@@ -53,6 +53,10 @@ cd /opt/kafka
 ./bin/kafka-topics.sh --create --zookeeper zookeeper:2181
 --replication-factor 1 --partitions 1 --topic my_first_topic
 
+**To create topics with group name**
+./bin/kafka-topics.sh --create --zookeeper zookeeper:2181
+--replication-factor 1 --partitions 1 --topic my_first_topic -group give_group_id
+
 **To check List of topics**
 ./bin/kafka-topics.sh --bootstrap-server=localhost:9092 --list
 
@@ -62,3 +66,15 @@ cd /opt/kafka
 **To create Consumer**
 ./bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic
 youtube
+
+**To check group id**
+./bin/kafka-consumer-groups.sh --all-topics --bootstrap-server localhost:9092 --list 
+
+**To describe group to get belonging consumers**
+.bin/kafka-consumer-groups.sh --describe --group mygroup_name --bootstrap-server localhost:9092
+
+**To kill container for some reason**
+sudo docker container kill container_name
+
+**To start/stop kafka/zookeeper inside of container**
+sudo docker container start/stop kafka/zookeeper
