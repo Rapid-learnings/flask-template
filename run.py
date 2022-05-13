@@ -4,10 +4,13 @@ import os
 from dotenv import load_dotenv
 from flask import Flask
 
+
 from app.commands.example import register_commands
 from app.v1.project import project
 
 from extensions import make_celery, db
+import json
+import consumer
 
 app = Flask(__name__)
 
@@ -36,15 +39,15 @@ app.config['SQLALCHEMY_RECORD_QUERIES'] = bool(
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = os.getenv(
     'SQLALCHEMY_TRACK_MODIFICATIONS')
 
+app.config['TOPICS'] = os.getenv(
+    'TOPICS')
 db.init_app(app)
 
-
-
-@app.route('/')
+@app.route('/kafka')
 def hello_world():
-    return 'Hello World!!'
-
-
+    #return "Hello Rapid"
+    consumer.consumer_fub()
+     
 # Register blueprints
 app.register_blueprint(project)
 
@@ -53,4 +56,5 @@ celery = make_celery(app)
 register_commands(app)
 
 if __name__ == '__main__':
+   
     app.run(debug=True)
