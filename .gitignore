@@ -15,3 +15,7 @@ instance/
 
 # Bytcodes:
 *.pyc
+
+# Byte-compiled / optimized
+__pycache__/
+*.py[cod]

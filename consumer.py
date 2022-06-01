@@ -16,7 +16,6 @@ def consumer_fub():
         )
         
         for message in consumer:
-                #message = message.poll()
                 message = message.value;
                 print(f" Printing Random Number {'{}'.format(message)}")
         consumer.close()
