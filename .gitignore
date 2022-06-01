@@ -1,3 +1,11 @@
+# Bytcodes:
+*.pyc
+
+# Byte-compiled / optimized
+__pycache__/
+*.py[cod]
+*$py.class
+
 # C extensions
 *.so
 
@@ -12,11 +20,3 @@ venv
 
 # Flask stuff:
 instance/
-
-# Bytcodes:
-*.pyc
-
-# Byte-compiled / optimized
-__pycache__/
-*.py[cod]
-*$py.class
